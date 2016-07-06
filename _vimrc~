@@ -1,3 +1,4 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 以下为Vim插件管理工具Vundle的设置(要求放在vimrc的最前面)
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -20,7 +21,9 @@ Plugin 'VundleVim/Vundle.vim'
 "" Keep Plugin commands between vundle#begin/end.
 "" plugin on GitHub repo
 Plugin 'scrooloose/nerdtree'
+" 需先安装powerline、airline专用字体（已下载保存，Everything搜索即可找到）
 Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 "Plugin 'tpope/vim-fugitive'
 "" plugin from http://vim-scripts.org/vim/scripts.html
 "Plugin 'L9'
@@ -51,7 +54,9 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 以上为Vim插件管理工具Vundle的设置
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 "**************************************************************
@@ -62,25 +67,25 @@ behave mswin
 
 set diffexpr=MyDiff()
 function MyDiff()
-  let opt = '-a --binary '
-  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-  let arg1 = v:fname_in
-  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-  let arg2 = v:fname_new
-  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-  let arg3 = v:fname_out
-  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-  let eq = ''
+  let opt='-a --binary '
+  if &diffopt =~ 'icase' | let opt=opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt=opt . '-b ' | endif
+  let arg1=v:fname_in
+  if arg1 =~ ' ' | let arg1='"' . arg1 . '"' | endif
+  let arg2=v:fname_new
+  if arg2 =~ ' ' | let arg2='"' . arg2 . '"' | endif
+  let arg3=v:fname_out
+  if arg3 =~ ' ' | let arg3='"' . arg3 . '"' | endif
+  let eq=''
   if $VIMRUNTIME =~ ' '
     if &sh =~ '\<cmd'
-      let cmd = '""' . $VIMRUNTIME . '\diff"'
-      let eq = '"'
+      let cmd='""' . $VIMRUNTIME . '\diff"'
+      let eq='"'
     else
-      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+      let cmd=substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
     endif
   else
-    let cmd = $VIMRUNTIME . '\diff'
+    let cmd=$VIMRUNTIME . '\diff'
   endif
   silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
 endfunction
@@ -108,7 +113,7 @@ set autoread
 
 " With a map leader it's possible to do extra key combinations
 " like <LEADER>w saves the current file
-let mapleader = "\<space>"
+let mapleader="\<space>"
 
 " 设置窗口启动位置：x轴 y轴【左上角为：x=0 y=0】
 winpos 930 675
@@ -299,7 +304,7 @@ set clipboard=unnamed
     nnoremap <C-L> $
     noremap 0      ^
     noremap -      :call cursor(line("."), col("$")/2)<CR>
-    noremap =      $
+    noremap=     $
 
     " 将命令行前导符由冒号:改为分号;
     "nnoremap ; :
@@ -424,9 +429,9 @@ map <LEADER>tm :tabmove
 map <LEADER>tp :tabprevious<CR>
 map <LEADER>tx :tabnext<CR>
 " Let 'tt' toggle between this and the last accessed tab
-let g:lasttab = 1
+let g:lasttab=1
 nmap <LEADER>tt :execute "tabnext ".g:lasttab<CR>
-au TabLeave * let g:lasttab = tabpagenr()
+au TabLeave * let g:lasttab=tabpagenr()
 " 列出所有标签页
 map <LEADER>ta :tabs<CR>
 " Opens a new tab with the current buffer's path
@@ -438,6 +443,15 @@ map <LEADER>cd :cd %:p:h<cr>:pwd<cr>
 
 " 在临时将当前窗口放大到一个新标签以及关闭该新标签返回原窗口之间切换
 map <LEADER>z :call ZoomWindowTemporarily()<CR>
+
+" 启动NERDTree
+map <LEADER>n :NERDTree<CR>
+
+" 映射Vundle命令（Vundle源于Bundle，为避免与其他映射冲突，使用b开头）
+map <LEADER>bl :PluginList<CR>
+map <LEADER>bi :PluginInstall<CR>
+map <LEADER>bs :PluginSearch
+map <LEADER>bc :PluginClean<CR>
 
 " Specify the behavior when switching between buffers 
 " try和endtry：改变try和endtry之间命令的错误处理，包括所有
@@ -610,26 +624,23 @@ set laststatus=2
 " %c，列号；%V，虚拟列号，表示为负数；%p，当前行在文件位置的百分比；
 " %P，窗口在文件位置的百分比；%%，显示%号本身；%L，文件缓冲区里的总行数。
 "set statusline=%<[CFP=%F]%m%r%h%w\ [FMT=%{&fileformat}]\ [TYPE=%Y]\ [%.9b\ 0x%.9B]\ [CWD=%{getcwd()}]\ %=[%l,%c%V\ %p%%\ %P\ %LLs]
-"let g:airline_section_b='%<[CFP=%F]%m%r%h%w\ [FMT=%{&fileformat}]\ [TYPE=%Y]\ [%.9b\ 0x%.9B]\ [CWD=%{getcwd()}]'
-"let g:airline_section_y='[%l,%c%V\ %p%%\ %P\ %LLs]'
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 配置airline（代替statusline，powerline的纯vim实现，无需Python支持）
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 设置vim-airline的主题为luna
-"let g:airline_theme="luna" 
+let g:airline_theme="luna" 
 
 " 安装字体后，必须设置此项 
-let g:airline_powerline_fonts = 1   
+let g:airline_powerline_fonts=1   
 
 " 打开tabline功能，方便查看Buffer和切换，这个功能比较不错，
 " 在1个Tab下可用多个buffer，省去安装minibufexpl插件了
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#buffer_nr_show=1
 
 " 关闭状态显示空白符号计数
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#whitespace#symbol = '!'
+let g:airline#extensions#whitespace#enabled=0
+let g:airline#extensions#whitespace#symbol='!'
 
 " Windows系统还需要在上面设置下增加如下代码
 " 设置consolas字体"
@@ -637,18 +648,21 @@ set guifont=Consolas\ for\ Powerline\ FixedD:h11
 
 " 设置状态栏符号显示，下面编码用双引号
 let g:Powerline_symbols="fancy"
-let g:airline_symbols = {}
-let g:airline_left_sep = "\u2b80" 
-let g:airline_left_alt_sep = "\u2b81"
-let g:airline_right_sep = "\u2b82"
-let g:airline_right_alt_sep = "\u2b83"
-let g:airline_symbols.branch = "\u2b60"
-let g:airline_symbols.readonly = "\u2b64"
-let g:airline_symbols.linenr = "\u2b61"
+let g:airline_symbols={}
+let g:airline_left_sep="\u2b80" 
+let g:airline_left_alt_sep="\u2b81"
+let g:airline_right_sep="\u2b82"
+let g:airline_right_alt_sep="\u2b83"
+let g:airline_symbols.branch="\u2b60"
+let g:airline_symbols.readonly="\u2b64"
+let g:airline_symbols.linenr="\u2b61"
 
 " 设置顶部tabline栏符号显示
-let g:airline#extensions#tabline#left_sep = "\u2b80"
-let g:airline#extensions#tabline#left_alt_sep = "\u2b81"
+let g:airline#extensions#tabline#left_sep="\u2b80"
+let g:airline#extensions#tabline#left_alt_sep="\u2b81"
+
+"let g:airline_section_b='%<[CFP=%F]%m%r%h%w\ [FMT=%{&fileformat}]\ [TYPE=%Y]\ [%.9b\ 0x%.9B]\ [CWD=%{getcwd()}]'
+"let g:airline_section_y='[%l,%c%V\ %p%%\ %P\ %LLs]'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 配置airline结束
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -703,7 +717,7 @@ endfunction
 " 可视模式下按选择文本(选中的内容)执行查找搜索
 function! VisualSelectionAmix(direction, extra_filter) range
     " 预存无名寄存器的内容
-    let l:saved_reg = @"
+    let l:saved_reg=@"
     " :exe[cute] {expr1}，计算{expr1}，返回的字符串作为Ex命令执行（类似于JS的
     " eval()函数）
     " :norm[al][!] {commands}，在命令行模式上执行普通模式命令，!为不使用映射
@@ -717,14 +731,14 @@ function! VisualSelectionAmix(direction, extra_filter) range
     " \n仅被视作\和n两个字面文字字符，而不视为换行符，但也要例外————两个连续的单引号，
     " 它们被单纯地当作单引号，换言之，单引号字符串里面作为字面文字字符的单引号
     " 必须在其前面加多一个单引号，以对其进行转义，否则会被视作单引号字符串的界定符。
-    let l:pattern = escape(@", ' \/.*$^~[]')
+    let l:pattern=escape(@", ' \/.*$^~[]')
     " substitute({expr}, {pat}, {sub}, {flags})：{expr}，要被替换操作的原文本；
     " {pat}，匹配模式(比如正则表达式)；{sub}，用以替换符合匹配模式的文本的文本
     " (子串)；{flags}，标志位，缺省为空""，则仅用{sub}替换第一个匹配，若设为g，
     " 则替换所有{pat}匹配。该函数返回经匹配替换后的新文本。
     " 下面这一句是将上次v模式选中的、经过escape()函数对特殊字符转义处理后的
     " 文本的行尾的换行符删除(若行末有换行符，则以空字符""替换，实际就是删除)
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
+    let l:pattern=substitute(l:pattern, "\n$", "", "")
 
     if a:direction == 'gv'
         call CmdLine("Ag \"" . l:pattern . "\" " )
@@ -732,16 +746,16 @@ function! VisualSelectionAmix(direction, extra_filter) range
         call CmdLine("%s" . '/'. l:pattern . '/')
     endif
 
-    let @/ = l:pattern
-    let @" = l:saved_reg
+    let @/=l:pattern
+    let @"=l:saved_reg
 endfunction
 
 function! VisualSelectionArthurChiao(direction, extra_filter) range
-    let l:saved_reg = @"
+    let l:saved_reg=@"
     execute "normal! vgvy"
 
-    let l:pattern = escape(@", ' \/.*$^~[]')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
+    let l:pattern=escape(@", ' \/.*$^~[]')
+    let l:pattern=substitute(l:pattern, "\n$", "", "")
 
     if a:direction == 'SearchBackward'
         execute "normal ?" . l:pattern . "^M"
@@ -753,15 +767,15 @@ function! VisualSelectionArthurChiao(direction, extra_filter) range
         execute "normal /" . l:pattern . "^M"
     endif
 
-    let @/ = l:pattern
-    let @" = l:saved_reg
+    let @/=l:pattern
+    let @"=l:saved_reg
 endfunction
 """"""""""""""""""""""""""""""
 
 " 切换绝对行号、相对行号、无行号
 function! s:ToggleLineNumber()
     " cpo，vi兼容性选项；这里的&表示获得选项变量的值
-    let l:save_cpo = &cpo
+    let l:save_cpo=&cpo
     " se[t] {option}&vim：复位选项为Vim的缺省值
     set cpo&vim
 
@@ -773,11 +787,11 @@ function! s:ToggleLineNumber()
     if !exists('b:number_status')
         "You may has multi-windows, so it should only working on local buffer
         if &l:relativenumber == 1
-            let b:number_status = 4
+            let b:number_status=4
         elseif &l:number == 1
-            let b:number_status = 2
+            let b:number_status=2
         else
-            let b:number_status = 1
+            let b:number_status=1
         endif
     endif
     "
@@ -792,18 +806,18 @@ function! s:ToggleLineNumber()
         "
         setlocal number
         setlocal relativenumber
-        let b:number_status = 4
+        let b:number_status=4
     elseif b:number_status == 4
         setlocal norelativenumber
         setlocal number
-        let b:number_status = 2
+        let b:number_status=2
     elseif b:number_status == 2
         setlocal norelativenumber
         setlocal nonumber
-        let b:number_status = 1
+        let b:number_status=1
     endif
 
-    let &cpo = l:save_cpo
+    let &cpo=l:save_cpo
 endfunction
 """"""""""""""""""""""""""""""
 
@@ -867,8 +881,8 @@ endfunction
 function! ZoomWindowTemporarily()
     " check if is the zoomed state (tabnumber > 1 && window == 1)
     if exists("s:is_zoom_window") && tabpagenr('$') > 1 && tabpagewinnr(tabpagenr(), '$') == 1
-        let l:cur_winview = winsaveview()
-        let l:cur_bufname = bufname('')
+        let l:cur_winview=winsaveview()
+        let l:cur_bufname=bufname('')
         tabclose
 
         " restore the view

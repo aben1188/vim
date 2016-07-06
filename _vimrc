@@ -1,3 +1,4 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 以下为Vim插件管理工具Vundle的设置(要求放在vimrc的最前面)
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -20,7 +21,9 @@ Plugin 'VundleVim/Vundle.vim'
 "" Keep Plugin commands between vundle#begin/end.
 "" plugin on GitHub repo
 Plugin 'scrooloose/nerdtree'
+" 需先安装powerline、airline专用字体（已下载保存，Everything搜索即可找到）
 Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 "Plugin 'tpope/vim-fugitive'
 "" plugin from http://vim-scripts.org/vim/scripts.html
 "Plugin 'L9'
@@ -51,7 +54,9 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 以上为Vim插件管理工具Vundle的设置
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 "**************************************************************
@@ -439,6 +444,15 @@ map <LEADER>cd :cd %:p:h<cr>:pwd<cr>
 " 在临时将当前窗口放大到一个新标签以及关闭该新标签返回原窗口之间切换
 map <LEADER>z :call ZoomWindowTemporarily()<CR>
 
+" 启动NERDTree
+map <LEADER>n :NERDTree<CR>
+
+" 映射Vundle命令（Vundle源于Bundle，为避免与其他映射冲突，使用b开头）
+map <LEADER>bl :PluginList<CR>
+map <LEADER>bi :PluginInstall<CR>
+map <LEADER>bs :PluginSearch
+map <LEADER>bc :PluginClean<CR>
+
 " Specify the behavior when switching between buffers 
 " try和endtry：改变try和endtry之间命令的错误处理，包括所有
 " 执行的内容、source里的命令、函数调用、自动命令的激活等。
@@ -610,14 +624,11 @@ set laststatus=2
 " %c，列号；%V，虚拟列号，表示为负数；%p，当前行在文件位置的百分比；
 " %P，窗口在文件位置的百分比；%%，显示%号本身；%L，文件缓冲区里的总行数。
 "set statusline=%<[CFP=%F]%m%r%h%w\ [FMT=%{&fileformat}]\ [TYPE=%Y]\ [%.9b\ 0x%.9B]\ [CWD=%{getcwd()}]\ %=[%l,%c%V\ %p%%\ %P\ %LLs]
-"let g:airline_section_b='%<[CFP=%F]%m%r%h%w\ [FMT=%{&fileformat}]\ [TYPE=%Y]\ [%.9b\ 0x%.9B]\ [CWD=%{getcwd()}]'
-"let g:airline_section_y='[%l,%c%V\ %p%%\ %P\ %LLs]'
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 配置airline（代替statusline，powerline的纯vim实现，无需Python支持）
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 设置vim-airline的主题为luna
-"let g:airline_theme="luna" 
+let g:airline_theme="luna" 
 
 " 安装字体后，必须设置此项 
 let g:airline_powerline_fonts=1   
@@ -649,6 +660,9 @@ let g:airline_symbols.linenr="\u2b61"
 " 设置顶部tabline栏符号显示
 let g:airline#extensions#tabline#left_sep="\u2b80"
 let g:airline#extensions#tabline#left_alt_sep="\u2b81"
+
+"let g:airline_section_b='%<[CFP=%F]%m%r%h%w\ [FMT=%{&fileformat}]\ [TYPE=%Y]\ [%.9b\ 0x%.9B]\ [CWD=%{getcwd()}]'
+"let g:airline_section_y='[%l,%c%V\ %p%%\ %P\ %LLs]'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 配置airline结束
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

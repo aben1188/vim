@@ -24,6 +24,38 @@ Plugin 'scrooloose/nerdtree'
 " 需先安装powerline、airline专用字体（已下载保存，Everything搜索即可找到）
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+" 插件easymotion默认的快捷键
+" <LEADER><LEADER>w：跳转到当前光标后的某个单词
+" <LEADER><LEADER>b：跳转到当前光标前的某个单词
+" <LEADER><LEADER>s：双向跳转到所输入的单个字符(单个字母或单个汉字)
+" <LEADER><LEADER>j：跳转到光标下面的某行
+" <LEADER><LEADER>k：跳转到光标上面的某行
+Plugin 'easymotion/vim-easymotion'
+Plugin 'bsdelf/bufferhint'
+" ShowMarks provides a visual representation of the location marks
+" by placing a sign in the leftmost column of the buffer. 
+" The sign indicates the label of the mark and its location. 
+" ShowMarks的快捷键
+" <Leader>mt - Toggle whether marks are displayed or not.
+" <Leader>mo - Turn ShowMarks on, and displays marks.
+" <Leader>mh - Clear mark on current line.
+" <Leader>ma - Clear all marks.
+" <Leader>mm - Places next available mark.
+" ShowMarks的配置(Configuration)
+" Don't open ShowMarks with CursorHold autocommand.
+"let g:showmarks_auto_toggle = 0
+" Disable default key mappings.
+"let g:showmarks_no_mappings = 1
+" Only handle 'abcdBA' marks. When using :ShowMarksPlaceMark,
+" marks earlier in this list take precedence over latters.
+"let g:showmarks_include = "abcdBA"
+" Don't use ShowMarks with help files.
+"let g:showmarks_ignore_type = "h"
+" Display lowercase marks with a ">" suffix.
+"let g:showmarks_textlower = "\t>"
+" Highlight entire line where a lowercase mark is on.
+"let g:showmarks_hlline_lower = 1
+Plugin 'bootleq/ShowMarks'
 "Plugin 'tpope/vim-fugitive'
 "" plugin from http://vim-scripts.org/vim/scripts.html
 "Plugin 'L9'
@@ -370,6 +402,24 @@ set clipboard=unnamed
     noremap Y y$ :echom "Copied Text: " . @0<CR>3h
     nnoremap yy yy :echom "Copied Text: " . @0<CR>3h  
     vnoremap y y :echom "Copied Text: " . @0<CR>h
+    
+    " 映射缓冲区管理插件bufferhint(查看、切换缓冲区)的快捷键
+    " 按\键可调出“缓冲区列表”窗口。再按一下，可以关闭；
+    " 缓冲区列表最左侧的一个或两个字母(hint key)与缓冲区关联，
+    " 按下字母，就能切换到对应的缓冲区(类似于Vimperator/Vimium/VimFx)；
+    " 按|键可切回上一个缓冲区。当频繁地在某两个文件之间来回切换时，这很有用；
+    " 当光标在缓冲区列表里时，按q可关闭窗口，k和j可以上下移动；
+    " 另外，光标键、<c-f>、<c-b>、<home>、<end>、gg、G也可移动光标；
+    " 查找只需像往常一样按下/，输入关键字，按n到下一个，按N到上一个，
+    " 当找到需要的缓冲区之后，回车就能打开；若想关闭光标下的缓冲区，按dd；
+    " 若想关闭视区内任一缓冲区，输入d及其对应的hint key，例如da，再回车；
+    " 当缓冲区列表首次打开时，按路径排序(左侧字母为黄色)；按下空格键，
+    " 可把排序方式切换到Latest Recently Used(左侧字母变成绿色)。
+    noremap \ :call bufferhint#Popup()<CR>
+    " “|”必须转义，否则将被识别成语句分隔符，而导致出现“Unknown function: 
+    " bufferhint#LoadPrevious”的错误，这是因为vimrc启动过程中bufferhint.vim
+    " 文件还未加载，所以找不到该函数而出错。
+    noremap \| :call bufferhint#LoadPrevious()<CR>
 " }
 
 " Disable highlight when <LEADER><cr> is pressed
@@ -443,15 +493,29 @@ map <LEADER>cd :cd %:p:h<cr>:pwd<cr>
 
 " 在临时将当前窗口放大到一个新标签以及关闭该新标签返回原窗口之间切换
 map <LEADER>z :call ZoomWindowTemporarily()<CR>
-
-" 启动NERDTree
-map <LEADER>n :NERDTree<CR>
-
+"
 " 映射Vundle命令（Vundle源于Bundle，为避免与其他映射冲突，使用b开头）
 map <LEADER>bl :PluginList<CR>
 map <LEADER>bi :PluginInstall<CR>
 map <LEADER>bs :PluginSearch
 map <LEADER>bc :PluginClean<CR>
+
+" 启动NERDTree
+map <LEADER>n :NERDTree<CR>
+
+" easymotion变量及快捷键映射
+map <Leader><leader>h <Plug>(easymotion-linebackward)
+map <Leader><leader>l <Plug>(easymotion-lineforward)
+map <Leader><leader>. <Plug>(easymotion-repeat)
+" 下列快捷键为easymotion的默认映射，无需重复设置
+" <LEADER><LEADER>w：跳转到当前光标后的某个单词
+" <LEADER><LEADER>b：跳转到当前光标前的某个单词
+" <LEADER><LEADER>s：双向跳转到所输入的单个字母
+" <LEADER><LEADER>j：跳转到光标下面的某行
+" <LEADER><LEADER>k：跳转到光标上面的某
+let g:EasyMotion_smartcase = 1
+" keep cursor colum when JK motion
+let g:EasyMotion_startofline = 0
 
 " Specify the behavior when switching between buffers 
 " try和endtry：改变try和endtry之间命令的错误处理，包括所有
@@ -616,7 +680,7 @@ set laststatus=2
 "set ruler
 " Format the status line
 "set statusline=\%{HasPaste()}%F%m%r%h\ %w\ \CWD:\ %r%{getcwd()}%h\ \L%l\/\C%c
-" 状态栏设置：%<，行过长，则开头截短；CFP，当前文件路径，%F，显示完整路径；
+" 状态栏设置：%<，行过长，则开头截短；CFD，当前文件目录，%F，显示完整路径；
 " %m，修改标志位；%r，只读标志位；%h，帮助标志位；%w，预览窗口标志位；
 " FMT，文件格式，%{&fileformat}，%{}表示计算表达式，&表示取得选项变量的值；
 " TYPE，文件类型，%Y，文件类型；%b，光标所在字符的10进制码点值，.9，最大显示9位；
@@ -643,8 +707,22 @@ let g:airline#extensions#whitespace#enabled=0
 let g:airline#extensions#whitespace#symbol='!'
 
 " Windows系统还需要在上面设置下增加如下代码
-" 设置consolas字体"
-set guifont=Consolas\ for\ Powerline\ FixedD:h11
+" 设置consolas字体（注意：下面的字体设置除gui_win32之外，其他仅为演示之用）
+" 若在多个不同的系统平台上使用同一个vimrc，可这样设置不同类型的GUI专用选项：
+if has("gui_running")
+    if has("gui_gtk2")
+        set guifont=Luxi\ Mono\ 12
+    elseif has("x11")
+        " Also for GTK 1
+        set guifont=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
+    elseif has("gui_win32")
+        " h11的意思是字号设置为11px【px(pixel像素)是一个虚拟长度单位，
+        " 是计算机系统的数字化图像长度单位，如果px要换算成物理长度，
+        " 需要指定精度DPI(Dots Per Inch每英寸像素数)，在扫描打印时
+        " 一般都有DPI可选。Windows系统默认96dpi，Apple系统默认72dpi】
+        set guifont=Consolas\ for\ Powerline\ FixedD:h11
+    endif
+endif
 
 " 设置状态栏符号显示，下面编码用双引号
 let g:Powerline_symbols="fancy"
@@ -661,7 +739,7 @@ let g:airline_symbols.linenr="\u2b61"
 let g:airline#extensions#tabline#left_sep="\u2b80"
 let g:airline#extensions#tabline#left_alt_sep="\u2b81"
 
-"let g:airline_section_b='%<[CFP=%F]%m%r%h%w\ [FMT=%{&fileformat}]\ [TYPE=%Y]\ [%.9b\ 0x%.9B]\ [CWD=%{getcwd()}]'
+let g:airline_section_b='%<%m%r%h%w [TYPE=%Y] [%.9b 0x%.9B]\ [CWD=%{getcwd()}]'
 "let g:airline_section_y='[%l,%c%V\ %p%%\ %P\ %LLs]'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 配置airline结束

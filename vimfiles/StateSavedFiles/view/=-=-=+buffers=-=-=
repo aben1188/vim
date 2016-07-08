@@ -1,0 +1,182 @@
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+argglobal
+map <buffer> <silent>  :call bufferhint#Scroll("pgup")
+map <buffer> <silent>  :call bufferhint#Scroll("pgdn")
+noremap <buffer> <silent>  :call bufferhint#LoadByCursor()
+map <buffer> <silent>   :call bufferhint#SwitchMode()
+let s:cpo_save=&cpo
+set cpo&vim
+map <buffer> A <Nop>
+map <buffer> <silent> G :call bufferhint#Scroll("bottom")
+map <buffer> I <Nop>
+map <buffer> O <Nop>
+map <buffer> <silent> a :call bufferhint#LoadByHint("a")
+map <buffer> <silent> b :call bufferhint#LoadByHint("b")
+map <buffer> <silent> c :call bufferhint#LoadByHint("c")
+map <buffer> <silent> dd :call bufferhint#KillByCursor()
+map <buffer> <silent> dy :call bufferhint#KillByHint("y")
+map <buffer> <silent> dx :call bufferhint#KillByHint("x")
+map <buffer> <silent> dw :call bufferhint#KillByHint("w")
+map <buffer> <silent> dv :call bufferhint#KillByHint("v")
+map <buffer> <silent> du :call bufferhint#KillByHint("u")
+map <buffer> <silent> dt :call bufferhint#KillByHint("t")
+map <buffer> <silent> ds :call bufferhint#KillByHint("s")
+map <buffer> <silent> dr :call bufferhint#KillByHint("r")
+map <buffer> <silent> dp :call bufferhint#KillByHint("p")
+map <buffer> <silent> do :call bufferhint#KillByHint("o")
+map <buffer> <silent> dm :call bufferhint#KillByHint("m")
+map <buffer> <silent> dl :call bufferhint#KillByHint("l")
+map <buffer> <silent> di :call bufferhint#KillByHint("i")
+map <buffer> <silent> dh :call bufferhint#KillByHint("h")
+map <buffer> <silent> df :call bufferhint#KillByHint("f")
+map <buffer> <silent> de :call bufferhint#KillByHint("e")
+map <buffer> <silent> dc :call bufferhint#KillByHint("c")
+map <buffer> <silent> db :call bufferhint#KillByHint("b")
+map <buffer> <silent> da :call bufferhint#KillByHint("a")
+map <buffer> <silent> dzd :call bufferhint#KillByHint("zd")
+map <buffer> <silent> dzc :call bufferhint#KillByHint("zc")
+map <buffer> <silent> dzb :call bufferhint#KillByHint("zb")
+map <buffer> <silent> dza :call bufferhint#KillByHint("za")
+map <buffer> <silent> e :call bufferhint#LoadByHint("e")
+map <buffer> <silent> f :call bufferhint#LoadByHint("f")
+map <buffer> <silent> gg :call bufferhint#Scroll("top")
+map <buffer> <silent> h :call bufferhint#LoadByHint("h")
+map <buffer> <silent> i :call bufferhint#LoadByHint("i")
+map <buffer> <silent> j :call bufferhint#Scroll("down")
+map <buffer> <silent> k :call bufferhint#Scroll("up")
+map <buffer> <silent> l :call bufferhint#LoadByHint("l")
+map <buffer> <silent> m :call bufferhint#LoadByHint("m")
+map <buffer> <silent> o :call bufferhint#LoadByHint("o")
+map <buffer> <silent> p :call bufferhint#LoadByHint("p")
+map <buffer> <silent> q :bwipeout 
+map <buffer> <silent> r :call bufferhint#LoadByHint("r")
+map <buffer> <silent> s :call bufferhint#LoadByHint("s")
+map <buffer> <silent> t :call bufferhint#LoadByHint("t")
+map <buffer> <silent> u :call bufferhint#LoadByHint("u")
+map <buffer> <silent> v :call bufferhint#LoadByHint("v")
+map <buffer> <silent> w :call bufferhint#LoadByHint("w")
+map <buffer> <silent> x :call bufferhint#LoadByHint("x")
+map <buffer> <silent> y :call bufferhint#LoadByHint("y")
+map <buffer> <silent> zd :call bufferhint#LoadByHint("zd")
+map <buffer> <silent> zc :call bufferhint#LoadByHint("zc")
+map <buffer> <silent> zb :call bufferhint#LoadByHint("zb")
+map <buffer> <silent> za :call bufferhint#LoadByHint("za")
+map <buffer> <Right> <Nop>
+map <buffer> <Left> <Nop>
+map <buffer> <silent> <End> G
+map <buffer> <silent> <Home> gg
+map <buffer> <silent> <Up> k
+map <buffer> <silent> <Down> j
+map <buffer> <silent> <PageDown> :call bufferhint#Scroll("pgdn")
+map <buffer> <silent> <PageUp> :call bufferhint#Scroll("pgup")
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal balloonexpr=
+setlocal nobinary
+setlocal bufhidden=delete
+setlocal nobuflisted
+setlocal buftype=nofile
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal cursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != ''
+setlocal filetype=
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcqmM
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=2
+setlocal imsearch=2
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,128-167,224-235
+setlocal keywordprg=
+setlocal linebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:],<:>
+setlocal modeline
+setlocal nomodifiable
+setlocal nrformats=octal,hex,alpha
+setlocal nonumber
+setlocal numberwidth=4
+setlocal omnifunc=
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal relativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal smartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != ''
+setlocal syntax=
+endif
+setlocal tabstop=4
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal undofile
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal nowrap
+setlocal wrapmargin=0
+let s:l = 1 - ((0 * winheight(0) + 11) / 23)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 04|
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+" vim: set ft=vim :

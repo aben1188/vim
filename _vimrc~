@@ -1,4 +1,4 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 以下为Vim插件管理工具Vundle的设置(要求放在vimrc的最前面)
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -43,18 +43,18 @@ Plugin 'bsdelf/bufferhint'
 " <Leader>mm - Places next available mark.
 " ShowMarks的配置(Configuration)
 " Don't open ShowMarks with CursorHold autocommand.
-"let g:showmarks_auto_toggle = 0
+"let g:showmarks_auto_toggle=0
 " Disable default key mappings.
-"let g:showmarks_no_mappings = 1
+"let g:showmarks_no_mappings=1
 " Only handle 'abcdBA' marks. When using :ShowMarksPlaceMark,
 " marks earlier in this list take precedence over latters.
-"let g:showmarks_include = "abcdBA"
+"let g:showmarks_include="abcdBA"
 " Don't use ShowMarks with help files.
-"let g:showmarks_ignore_type = "h"
+"let g:showmarks_ignore_type="h"
 " Display lowercase marks with a ">" suffix.
-"let g:showmarks_textlower = "\t>"
+"let g:showmarks_textlower="\t>"
 " Highlight entire line where a lowercase mark is on.
-"let g:showmarks_hlline_lower = 1
+"let g:showmarks_hlline_lower=1
 Plugin 'bootleq/ShowMarks'
 "Plugin 'tpope/vim-fugitive'
 "" plugin from http://vim-scripts.org/vim/scripts.html
@@ -100,17 +100,17 @@ behave mswin
 set diffexpr=MyDiff()
 function MyDiff()
   let opt='-a --binary '
-  if &diffopt =~ 'icase' | let opt=opt . '-i ' | endif
-  if &diffopt =~ 'iwhite' | let opt=opt . '-b ' | endif
+  if &diffopt=~ 'icase' | let opt=opt . '-i ' | endif
+  if &diffopt=~ 'iwhite' | let opt=opt . '-b ' | endif
   let arg1=v:fname_in
-  if arg1 =~ ' ' | let arg1='"' . arg1 . '"' | endif
+  if arg1=~ ' ' | let arg1='"' . arg1 . '"' | endif
   let arg2=v:fname_new
-  if arg2 =~ ' ' | let arg2='"' . arg2 . '"' | endif
+  if arg2=~ ' ' | let arg2='"' . arg2 . '"' | endif
   let arg3=v:fname_out
-  if arg3 =~ ' ' | let arg3='"' . arg3 . '"' | endif
+  if arg3=~ ' ' | let arg3='"' . arg3 . '"' | endif
   let eq=''
-  if $VIMRUNTIME =~ ' '
-    if &sh =~ '\<cmd'
+  if $VIMRUNTIME=~ ' '
+    if &sh=~ '\<cmd'
       let cmd='""' . $VIMRUNTIME . '\diff"'
       let eq='"'
     else
@@ -194,6 +194,18 @@ set visualbell
 set t_vb=
 set timeoutlen=800
 
+" don't add two spaces after ., ?, !
+set nojoinspaces
+
+"" set g as default when substitute
+"set gdefault
+" 定义使用<C-A>和<C-X>(Windows下已分别改为<C-I>和<C-D>)命令加减数值时使用的
+" 基底：alpha，如果包含，单个字母会被递增和递减，这可用于使用字母索引的列表
+" a)、b)等等；octal，如果包含，零开始的数值认为是八进制，如在"007"上用C-A
+" 得到"010"；hex，如果包含，"0x"或"0X"开头的数值认为是十六进制，如在"0x100"
+" 上用C-X得到"0x0ff"。以1-9开始的数值总被认为是十进制的。octal与hex默认包含。
+set nrformats+=alpha
+
 " 高亮显示光标所在行
 set cursorline
 " 高亮显示光标所在列【简写：设置 cuc；取消 nocuc】
@@ -262,7 +274,7 @@ if has("multi_byte")
     set fileencodings=ucs-bom,utf-8,prc,gb18030,taiwan,japan,korea,latin1
     " 处理CJK东亚二义性宽度字符类 (East Asian Width Class Ambiguous)
     " 例如，欧元符号、注册记号、版权记号、希腊字母、西里尔字母等等
-    if v:lang =~? '^/(zh/)/|/(ja/)/|/(ko/)'
+    if v:lang=~? '^/(zh/)/|/(ja/)/|/(ko/)'
         set ambiwidth=double
     endif
     if has("win32")
@@ -334,9 +346,9 @@ set clipboard=unnamed
     " 命令模式下，移动到当前行行首、行尾、行中
     nnoremap <C-H> ^
     nnoremap <C-L> $
-    noremap 0      ^
-    noremap -      :call cursor(line("."), col("$")/2)<CR>
-    noremap=     $
+    noremap  0     ^
+    noremap  -     :call cursor(line("."), col("$")/2)<CR>
+    noremap  =     $
 
     " 将命令行前导符由冒号:改为分号;
     "nnoremap ; :
@@ -350,6 +362,11 @@ set clipboard=unnamed
     cnoremap <C-H> <LEFT>
     cnoremap <C-L> <RIGHT>
     cnoremap <C-D> <DELETE>
+
+    " 由于Windows下的<C-A>已被映射为全选功能，因此需重映射
+    " 注：默认<C-A>为增加光标所在字符的数值或字母，<C-X>反之
+    noremap <C-I> <C-A>  |" I，Increase
+    noremap <C-D> <C-X>  |" D，Decrease
 
     " 插入模式下，回车为ESC；Shift+回车为回车
     "inoremap <S-CR> <CR>
@@ -373,24 +390,25 @@ set clipboard=unnamed
     " 双引号字符串中的双引号混淆(有些命令后不能跟注释，因为
     " 字符串优先于注释)，因此，可在命令行后面的注释前加上
     " 命令分隔符|(用于分隔放在单行上的多条Ex命令语句)，以免出错
-    nnoremap ,c <C-W>c  |" 关闭窗口
-    nnoremap ,s <C-W>s  |" 水平分割窗口
-    nnoremap ,v <C-W>v  |" 垂直分割窗口
-    nnoremap ,h <C-W>h  |" 将光标移到左边窗口
-    nnoremap ,j <C-W>j  |" 将光标移到下边窗口
-    nnoremap ,k <C-W>k  |" 将光标移到上边窗口
-    nnoremap ,l <C-W>l  |" 将光标移到右边窗口
-    nnoremap ,w <C-W>w  |" 将光标移到下一个窗口
-    nnoremap ,H <C-W>H  |" 将当前窗口移到左边 
-    nnoremap ,J <C-W>J  |" 将当前窗口移到上边
-    nnoremap ,K <C-W>K  |" 将当前窗口移到下边
-    nnoremap ,L <C-W>L  |" 将当前窗口移到右边
-    nnoremap ,= <C-W>=  |" 使所有分窗口一样高
-    nnoremap ,+ <C-W>+  |" 增加当前窗口的高度
-    nnoremap ,- <C-W>-  |" 减少当前窗口的高度
-    nnoremap ,> <C-W>>  |" 增加当前窗口的宽度
-    nnoremap ,< <C-W><  |" 减少当前窗口的宽度
-    nnoremap ,T <C-W>T  |" 将所有分窗口转换标签
+    noremap ,c <C-W>c  |" 关闭窗口
+    noremap ,s <C-W>s  |" 水平分割窗口
+    noremap ,v <C-W>v  |" 垂直分割窗口
+    noremap ,h <C-W>h  |" 将光标移到左边窗口
+    noremap ,j <C-W>j  |" 将光标移到下边窗口
+    noremap ,k <C-W>k  |" 将光标移到上边窗口
+    noremap ,l <C-W>l  |" 将光标移到右边窗口
+    noremap ,w <C-W>w  |" 将光标移到下一个窗口
+    noremap <F5> <C-W>w|" 将光标移到下一个窗口
+    noremap ,H <C-W>H  |" 将当前窗口移到左边 
+    noremap ,J <C-W>J  |" 将当前窗口移到上边
+    noremap ,K <C-W>K  |" 将当前窗口移到下边
+    noremap ,L <C-W>L  |" 将当前窗口移到右边
+    noremap ,= <C-W>=  |" 使所有分窗口一样高
+    noremap ,+ <C-W>+  |" 增加当前窗口的高度
+    noremap ,- <C-W>-  |" 减少当前窗口的高度
+    noremap ,> <C-W>>  |" 增加当前窗口的宽度
+    noremap ,< <C-W><  |" 减少当前窗口的宽度
+    noremap ,T <C-W>T  |" 将所有分窗口转换标签
 
     " 将Y映射为从光标当前位置复制到行尾，
     " 以与D、C等大写字母的行为统一起来；
@@ -409,7 +427,7 @@ set clipboard=unnamed
     " 按下字母，就能切换到对应的缓冲区(类似于Vimperator/Vimium/VimFx)；
     " 按|键可切回上一个缓冲区。当频繁地在某两个文件之间来回切换时，这很有用；
     " 当光标在缓冲区列表里时，按q可关闭窗口，k和j可以上下移动；
-    " 另外，光标键、<c-f>、<c-b>、<home>、<end>、gg、G也可移动光标；
+    " 另外，箭头键、<c-f>、<c-b>、<home>、<end>、gg、G也可移动光标；
     " 查找只需像往常一样按下/，输入关键字，按n到下一个，按N到上一个，
     " 当找到需要的缓冲区之后，回车就能打开；若想关闭光标下的缓冲区，按dd；
     " 若想关闭视区内任一缓冲区，输入d及其对应的hint key，例如da，再回车；
@@ -420,6 +438,27 @@ set clipboard=unnamed
     " bufferhint#LoadPrevious”的错误，这是因为vimrc启动过程中bufferhint.vim
     " 文件还未加载，所以找不到该函数而出错。
     noremap \| :call bufferhint#LoadPrevious()<CR>
+
+    " 打开配置文件
+    map <F6> :edit $MYVIMRC<CR>
+    " 重载配置文件
+    map <F9> :source $MYVIMRC<CR>
+
+    " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac（上下移动行）
+    nmap <M-j> mz:m+<cr>`z
+    nmap <M-k> mz:m-2<cr>`z
+    vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+    vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+    "if has("mac") || has("macunix")
+    "    nmap <D-j> <M-j>
+    "    nmap <D-k> <M-k>
+    "    vmap <D-j> <M-j>
+    "    vmap <D-k> <M-k>
+    "endif
+
+    "" 按<Tab>缩进，按<S-Tab>反缩进
+    "noremap <Tab>   >>
+    "noremap <S-Tab> <<
 " }
 
 " Disable highlight when <LEADER><cr> is pressed
@@ -427,11 +466,6 @@ map <LEADER>h :noh<CR>
 
 " 普通模式下插入换行符
 map <LEADER><CR> i<CR><ESC>
-
-" 打开配置文件
-map <LEADER>ev :edit $MYVIMRC<CR>
-" 重载配置文件
-map <LEADER>es :source $MYVIMRC<CR>
 
 " 保存文件并退出
 map <LEADER>w :wq<CR>
@@ -493,7 +527,10 @@ map <LEADER>cd :cd %:p:h<cr>:pwd<cr>
 
 " 在临时将当前窗口放大到一个新标签以及关闭该新标签返回原窗口之间切换
 map <LEADER>z :call ZoomWindowTemporarily()<CR>
-"
+
+" toggle case ignore（切换忽略大小写选项）
+nmap <Leader>C :set ignorecase! ignorecase?<CR>
+
 " 映射Vundle命令（Vundle源于Bundle，为避免与其他映射冲突，使用b开头）
 map <LEADER>bl :PluginList<CR>
 map <LEADER>bi :PluginInstall<CR>
@@ -513,9 +550,9 @@ map <Leader><leader>. <Plug>(easymotion-repeat)
 " <LEADER><LEADER>s：双向跳转到所输入的单个字母
 " <LEADER><LEADER>j：跳转到光标下面的某行
 " <LEADER><LEADER>k：跳转到光标上面的某
-let g:EasyMotion_smartcase = 1
+let g:EasyMotion_smartcase=1
 " keep cursor colum when JK motion
-let g:EasyMotion_startofline = 0
+let g:EasyMotion_startofline=0
 
 " Specify the behavior when switching between buffers 
 " try和endtry：改变try和endtry之间命令的错误处理，包括所有
@@ -568,7 +605,7 @@ set guioptions-=r  |" r，右边滚动条
 set guioptions-=L  |" L，垂直分割窗口时左边滚动条
 " =~#，匹配大小写，即使已设置了ignorecase
 " <Bar>，即Ex命令分隔符|；\为续行符(长行接续符)
-map <F4> :if &guioptions =~# 'T' <Bar>
+map <F4> :if &guioptions=~# 'T' <Bar>
         \set guioptions-=T <Bar>
         \set guioptions-=m <bar>
         \set guioptions-=r <bar>
@@ -587,8 +624,18 @@ map <F11> :call ToggleWindowSize()<CR>
 set matchpairs+=<:>
 
 " 普通模式下当前缓冲区文本修改、退出插入模式、离开缓冲区、失去焦点时，自动保存文件
-autocmd TextChanged,InsertLeave * update
+"autocmd TextChanged,InsertLeave * update
+autocmd InsertLeave * update
 autocmd BufLeave,FocusLost * wall
+
+" VimEnter事件(做完所有启动任务，包括载入.vimrc文件、执行"-c cmd"参数、
+" 创建所有窗口并在其中载入所有缓冲区)之后，最大化窗口。
+" simalt命令告诉Vim(winaltkeys不要设置为yes)虚拟一个Windows风格的Alt按键行为，
+" 这样可以用它来映射Alt组合键(或者任何其它键)来产生标准的Windows操作，以便于
+" 在Windows中即使禁用Alt-{key}访问菜单的标准方法(winaltkeys设置为no)，
+" 也能通过simalt来模拟访问菜单；其中，~在simalt命令中代表空格<Space>。
+autocmd VimEnter * simalt ~x
+let s:window_max_status=1
 
 "" 自动保存配置(自动保存、读取、执行session会话文件)
 "cd $vim/vim74   "进入保存session会话文件的目录
@@ -603,7 +650,28 @@ autocmd BufLeave,FocusLost * wall
 "" 注意：若提供[file]，不能加.vim扩展名后缀，否则出错(vim会自动加)
 "autocmd VimLeave * mksession!
 "autocmd VimEnter * :call s:ReadSession()
+" 下面为郑晖先生的状态保存设置【有修改】
+" Save state {
+    " do not store global and local values in a session
+    set sessionoptions-=options
+    "set sessionoptions-=curdir
+    "set sessionoptions+=sesdir
+    " do not store empty windows(avoid nerdtree problem)
+    set sessionoptions-=blank
 
+    if has('gui_running') " auto change session in heavy GUI
+        autocmd VimEnter * nested :call s:loadSession()
+        autocmd VimLeave * :call s:updateSession()
+    endif
+
+    " save viminfo
+    exe 'set viminfo+=n' . escape($VimStateSavedFiles, ' \') . '/_viminfo'
+
+    " save view records
+    exe 'set viewdir='. escape($VimStateSavedFiles, ' ') . '/view'
+    autocmd BufWinLeave * silent! mkview
+    autocmd BufWinEnter * silent! loadview
+" }
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Files backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -694,13 +762,16 @@ set laststatus=2
 " 设置vim-airline的主题为luna
 let g:airline_theme="luna" 
 
-" 安装字体后，必须设置此项 
+" 安装airline专用字体后，必须设置此项 
 let g:airline_powerline_fonts=1   
 
 " 打开tabline功能，方便查看Buffer和切换，这个功能比较不错，
 " 在1个Tab下可用多个buffer，省去安装minibufexpl插件了
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#buffer_nr_show=1
+
+" 启用airline中集成的CtrlP
+let g:airline#extensions#ctrlp#enabled=1
 
 " 关闭状态显示空白符号计数
 let g:airline#extensions#whitespace#enabled=0
@@ -739,20 +810,24 @@ let g:airline_symbols.linenr="\u2b61"
 let g:airline#extensions#tabline#left_sep="\u2b80"
 let g:airline#extensions#tabline#left_alt_sep="\u2b81"
 
-let g:airline_section_b='%<%m%r%h%w [TYPE=%Y] [%.9b 0x%.9B]\ [CWD=%{getcwd()}]'
-"let g:airline_section_y='[%l,%c%V\ %p%%\ %P\ %LLs]'
+let g:airline_section_b='%<%m%r%h%w TYPE=%Y %.9b/0x%.9B CWD=%{getcwd()}'
+"let g:airline_section_y='%l,%c%V %p%% %P %LLs'
+
+let g:airline#extensions#tabline#buffer_idx_mode=1
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>[ <Plug>AirlineSelectPrevTab
+nmap <leader>] <Plug>AirlineSelectNextTab
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 配置airline结束
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" VimEnter事件(做完所有启动任务，包括载入.vimrc文件、执行"-c cmd"参数、
-" 创建所有窗口并在其中载入所有缓冲区)之后，最大化窗口。
-" simalt命令告诉Vim(winaltkeys不要设置为yes)虚拟一个Windows风格的Alt按键行为，
-" 这样可以用它来映射Alt组合键(或者任何其它键)来产生标准的Windows操作，以便于
-" 在Windows中即使禁用Alt-{key}访问菜单的标准方法(winaltkeys设置为no)，
-" 也能通过simalt来模拟访问菜单；其中，~在simalt命令中代表空格<Space>。
-autocmd VimEnter * simalt ~x
-let s:window_max_status=1
 
 
 "***************************************************************
@@ -770,7 +845,7 @@ let s:window_max_status=1
 " 会在该范围的每一行分别执行该函数，每次光标都定位在处理行的行首。
 " 见|function-range-example|。
 function! UndoSetCommand()
-    if (@: =~? '^set\s') || (@: =~? '^se\s')
+    if (@:=~? '^set\s') || (@:=~? '^se\s')
         exe @:.'!'
     endif
 endfunction
@@ -818,9 +893,9 @@ function! VisualSelectionAmix(direction, extra_filter) range
     " 文本的行尾的换行符删除(若行末有换行符，则以空字符""替换，实际就是删除)
     let l:pattern=substitute(l:pattern, "\n$", "", "")
 
-    if a:direction == 'gv'
+    if a:direction=='gv'
         call CmdLine("Ag \"" . l:pattern . "\" " )
-    elseif a:direction == 'replace'
+    elseif a:direction=='replace'
         call CmdLine("%s" . '/'. l:pattern . '/')
     endif
 
@@ -835,13 +910,13 @@ function! VisualSelectionArthurChiao(direction, extra_filter) range
     let l:pattern=escape(@", ' \/.*$^~[]')
     let l:pattern=substitute(l:pattern, "\n$", "", "")
 
-    if a:direction == 'SearchBackward'
+    if a:direction=='SearchBackward'
         execute "normal ?" . l:pattern . "^M"
-    elseif a:direction == 'gv'
+    elseif a:direction=='gv'
         call CmdLine("Ack \"" . l:pattern . "\" " )
-    elseif a:direction == 'replace'
+    elseif a:direction=='replace'
         call CmdLine("%s" . '/'. l:pattern . '/')
-    elseif a:direction == 'SearchForward'
+    elseif a:direction=='SearchForward'
         execute "normal /" . l:pattern . "^M"
     endif
 
@@ -864,16 +939,16 @@ function! s:ToggleLineNumber()
     "
     if !exists('b:number_status')
         "You may has multi-windows, so it should only working on local buffer
-        if &l:relativenumber == 1
+        if &l:relativenumber==1
             let b:number_status=4
-        elseif &l:number == 1
+        elseif &l:number==1
             let b:number_status=2
         else
             let b:number_status=1
         endif
     endif
     "
-    if b:number_status == 1
+    if b:number_status==1
         "set local number to make sure relative number like this (vim 7.4)
         "
         "   2
@@ -885,11 +960,11 @@ function! s:ToggleLineNumber()
         setlocal number
         setlocal relativenumber
         let b:number_status=4
-    elseif b:number_status == 4
+    elseif b:number_status==4
         setlocal norelativenumber
         setlocal number
         let b:number_status=2
-    elseif b:number_status == 2
+    elseif b:number_status==2
         setlocal norelativenumber
         setlocal nonumber
         let b:number_status=1
@@ -951,6 +1026,28 @@ function! s:ReadSession()
 endfunction
 """"""""""""""""""""""""""""""
 
+" $VimStateSavedFiles为Windows系统中定义的环境变量，
+" $VimStateSavedFiles=D:\Program Files (x86)\Vim\vimfiles\StateSavedFiles
+let s:sessionfile=$VimStateSavedFiles . '/session.vim'
+
+fun! s:updateSession()
+    let s:sessionfile = s:getSessionFile()
+    exe 'mksession! ' . s:sessionfile
+    echo 'updating session'
+endfun
+
+fun! s:loadSession()
+    if argc() == 0
+        let s:sessionfile = s:getSessionFile()
+        if (filereadable(s:sessionfile))
+            exe 'so' s:sessionfile
+        else
+            echo 'No session loaded.'
+        endif
+    endif
+endfun
+""""""""""""""""""""""""""""""
+
 " 临时将当前窗口新开一个标签，在分屏多窗口的情况下，
 " 相当于放大了该窗口；再次调用会关闭该新标签并
 " 回到原窗口(仅限于未再新开标签的情况，否则导致混乱)，
@@ -958,13 +1055,13 @@ endfunction
 " 函数用来将新开标签的窗口信息(光标位置等)应用回原窗口
 function! ZoomWindowTemporarily()
     " check if is the zoomed state (tabnumber > 1 && window == 1)
-    if exists("s:is_zoom_window") && tabpagenr('$') > 1 && tabpagewinnr(tabpagenr(), '$') == 1
+    if exists("s:is_zoom_window") && tabpagenr('$') > 1 && tabpagewinnr(tabpagenr(), '$')==1
         let l:cur_winview=winsaveview()
         let l:cur_bufname=bufname('')
         tabclose
 
         " restore the view
-        if l:cur_bufname == bufname('')
+        if l:cur_bufname==bufname('')
             call winrestview(cur_winview)
         endif
 

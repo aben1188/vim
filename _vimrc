@@ -190,7 +190,7 @@ set matchtime=1
 
 " No annoying sound on errors
 set noerrorbells
-set visualbell
+set novisualbell
 set t_vb=
 set timeoutlen=800
 
@@ -410,6 +410,9 @@ set clipboard=unnamed
     noremap ,< <C-W><  |" 减少当前窗口的宽度
     noremap ,T <C-W>T  |" 将所有分窗口转换标签
 
+    vnoremap < <gv
+    vnoremap > >gv
+    
     " 将Y映射为从光标当前位置复制到行尾，
     " 以与D、C等大写字母的行为统一起来；
     " 并且将复制内容回显到命令行中。

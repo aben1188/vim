@@ -8,7 +8,7 @@
 # hlsearch on (H) or off (h):
 ~h
 # Last Search Pattern:
-~MSle0~/getsession
+~MSle0~/<gv
 
 # Last Substitute Search Pattern:
 ~MSle0&l:sessionfile
@@ -17,11 +17,21 @@
 $s:sessionfile
 
 # Command Line History (newest to oldest):
+:ec $home
+:reg
+:sav
+:h saveas
+:q
 :%s
 :qa
 :'<,'>s/l:sessionfile/s:sessionfile/g
 
 # Search String History (newest to oldest):
+?/<gv
+?/,T
+?/status
+?/t_vb
+?/乱码
 ?/getsession
 ? \<sessionfile\>
 ?/text
@@ -40,16 +50,37 @@ $s:sessionfile
 
 # 寄存器:
 "0	LINE	0
-	autocmd TextChanged,InsertLeave * update
-""1	LINE	0
-	        let s:sessionfile = s:getSessionFile()
+	""""""""""""""""""""""""""""""
+	" Status line
+	""""""""""""""""""""""""""""""
+	" Always show the status line, even for one window
+	set laststatus=2
+	" Show line number, column number, and relative position
+	" within a file in the status line
+	"set ruler
+	" Format the status line
+	"set statusline=\%{HasPaste()}%F%m%r%h\ %w\ \CWD:\ %r%{getcwd()}%h\ \L%l\/\C%c
+	" 状态栏设置：%<，行过长，则开头截短；CFD，当前文件目录，%F，显示完整路径；
+	" %m，修改标志位；%r，只读标志位；%h，帮助标志位；%w，预览窗口标志位；
+	" FMT，文件格式，%{&fileformat}，%{}表示计算表达式，&表示取得选项变量的值；
+	" TYPE，文件类型，%Y，文件类型；%b，光标所在字符的10进制码点值，.9，最大显示9位；
+	" %B，光标所在字符的16进制码点值；CWD，当前工作目录；%=，左对齐与右对齐的分界点；
+	" %c，列号；%V，虚拟列号，表示为负数；%p，当前行在文件位置的百分比；
+	" %P，窗口在文件位置的百分比；%%，显示%号本身；%L，文件缓冲区里的总行数。
+	"set statusline=%<[CFP=%F]%m%r%h%w\ [FMT=%{&fileformat}]\ [TYPE=%Y]\ [%.9b\ 0x%.9B]\ [CWD=%{getcwd()}]\ %=[%l,%c%V\ %p%%\ %P\ %LLs]
+"1	LINE	0
+	call vundle#end()            " required
 "2	LINE	0
-	    let s:sessionfile = s:getSessionFile()
-"3	LINE	0
-	endfun
+	call vundle#end()            " required
 "4	LINE	0
-	fun! s:getSessionFile()
+	        let s:sessionfile = s:getSessionFile()
 "5	LINE	0
+	    let s:sessionfile = s:getSessionFile()
+"6	LINE	0
+	endfun
+"7	LINE	0
+	fun! s:getSessionFile()
+"8	LINE	0
 	
 	" VimEnter事件(做完所有启动任务，包括载入.vimrc文件、执行"-c cmd"参数、
 	" 创建所有窗口并在其中载入所有缓冲区)之后，最大化窗口。
@@ -59,38 +90,84 @@ $s:sessionfile
 	" 也能通过simalt来模拟访问菜单；其中，~在simalt命令中代表空格<Space>。
 	autocmd VimEnter * simalt ~x
 	let s:window_max_status=1
-"6	LINE	0
+"9	LINE	0
 	    endif
-"7	LINE	0
-	    if (filereadable(l:sessionfile))
-"-	CHAR	0
-	,
+""-	CHAR	0
+	"
 
 # 文件标记:
-'0  1038  19  D:\Program Files (x86)\Vim\_vimrc
-'1  1027  14  D:\Program Files (x86)\Vim\_vimrc
-'2  1031  12  D:\Program Files (x86)\Vim\_vimrc
-'3  8437  0  C:\Windows\system32\NERD_tree_1
-'4  11248  0  C:\Windows\system32\NERD_tree_1
-'5  676  3  D:\Program Files (x86)\Vim\_vimrc
-'6  675  62  D:\Program Files (x86)\Vim\_vimrc
-'7  674  1  D:\Program Files (x86)\Vim\_vimrc
-'8  668  65  D:\Program Files (x86)\Vim\_vimrc
+'0  73  8  D:\Program Files (x86)\Vim\_vimrc
+'1  744  0  D:\Program Files (x86)\Vim\_vimrc
+'2  1075  11  D:\Program Files (x86)\Vim\_vimrc
+'3  1  14  C:\Windows\system32\NERD_tree_1
+'4  1075  19  D:\Program Files (x86)\Vim\_vimrc
+'5  1075  14  D:\Program Files (x86)\Vim\_vimrc
+'6  1075  12  D:\Program Files (x86)\Vim\_vimrc
+'7  11354  0  C:\Windows\system32\NERD_tree_1
+'8  14165  0  C:\Windows\system32\NERD_tree_1
+'9  1075  3  D:\Program Files (x86)\Vim\_vimrc
 
 # 跳转列表 (从新到旧):
--'  1038  19  D:\Program Files (x86)\Vim\_vimrc
--'  1027  14  D:\Program Files (x86)\Vim\_vimrc
--'  1031  12  D:\Program Files (x86)\Vim\_vimrc
--'  8437  0  C:\Windows\system32\NERD_tree_1
--'  11245  2  C:\Windows\system32\NERD_tree_1
--'  1  0  C:\Windows\system32\NERD_tree_1
--'  1033  21  D:\Program Files (x86)\Vim\_vimrc
--'  628  10  D:\Program Files (x86)\Vim\_vimrc
+-'  73  8  D:\Program Files (x86)\Vim\_vimrc
+-'  744  0  D:\Program Files (x86)\Vim\_vimrc
+-'  745  2  D:\Program Files (x86)\Vim\_vimrc
+-'  641  17  D:\Program Files (x86)\Vim\_vimrc
+-'  297  75  D:\Program Files (x86)\Vim\_vimrc
+-'  1075  11  D:\Program Files (x86)\Vim\_vimrc
+-'  1  14  C:\Windows\system32\NERD_tree_1
+-'  2939  20  C:\Windows\system32\NERD_tree_1
+-'  11354  0  C:\Windows\system32\NERD_tree_1
+-'  14162  2  C:\Windows\system32\NERD_tree_1
+-'  14165  0  C:\Windows\system32\NERD_tree_1
+-'  16973  2  C:\Windows\system32\NERD_tree_1
+-'  1  0  D:\Program Files (x86)\Vim\_vimrc
+-'  8543  0  C:\Windows\system32\NERD_tree_1
+-'  11351  2  C:\Windows\system32\NERD_tree_1
+-'  5732  0  C:\Windows\system32\NERD_tree_1
+-'  8540  2  C:\Windows\system32\NERD_tree_1
+-'  5729  2  C:\Windows\system32\NERD_tree_1
 -'  11248  0  C:\Windows\system32\NERD_tree_1
 -'  14056  2  C:\Windows\system32\NERD_tree_1
--'  1041  23  D:\Program Files (x86)\Vim\_vimrc
+-'  14059  0  C:\Windows\system32\NERD_tree_1
+-'  16867  2  C:\Windows\system32\NERD_tree_1
+-'  1045  11  D:\Program Files (x86)\Vim\_vimrc
+-'  1041  19  D:\Program Files (x86)\Vim\_vimrc
+-'  128  20  C:\Windows\system32\NERD_tree_1
+-'  1042  0  D:\Program Files (x86)\Vim\_vimrc
+-'  1030  14  D:\Program Files (x86)\Vim\_vimrc
+-'  1034  12  D:\Program Files (x86)\Vim\_vimrc
+-'  1036  21  D:\Program Files (x86)\Vim\_vimrc
+-'  631  10  D:\Program Files (x86)\Vim\_vimrc
+-'  1044  23  D:\Program Files (x86)\Vim\_vimrc
+-'  1043  27  D:\Program Files (x86)\Vim\_vimrc
+-'  1037  26  D:\Program Files (x86)\Vim\_vimrc
+-'  1038  4  D:\Program Files (x86)\Vim\_vimrc
+-'  667  39  D:\Program Files (x86)\Vim\_vimrc
+-'  666  16  D:\Program Files (x86)\Vim\_vimrc
+-'  655  9  D:\Program Files (x86)\Vim\_vimrc
+-'  833  0  D:\Program Files (x86)\Vim\_vimrc
+-'  691  38  D:\Program Files (x86)\Vim\_vimrc
+-'  679  3  D:\Program Files (x86)\Vim\_vimrc
+-'  678  62  D:\Program Files (x86)\Vim\_vimrc
+-'  677  1  D:\Program Files (x86)\Vim\_vimrc
+-'  671  65  D:\Program Files (x86)\Vim\_vimrc
+-'  669  3  D:\Program Files (x86)\Vim\_vimrc
+-'  668  62  D:\Program Files (x86)\Vim\_vimrc
+-'  1046  23  D:\Program Files (x86)\Vim\_vimrc
+-'  1039  4  D:\Program Files (x86)\Vim\_vimrc
+-'  2921  0  C:\Windows\system32\NERD_tree_1
+-'  2918  2  C:\Windows\system32\NERD_tree_1
+-'  8437  0  C:\Windows\system32\NERD_tree_1
+-'  11245  2  C:\Windows\system32\NERD_tree_1
+-'  741  0  D:\Program Files (x86)\Vim\_vimrc
+-'  742  2  D:\Program Files (x86)\Vim\_vimrc
+-'  638  17  D:\Program Files (x86)\Vim\_vimrc
+-'  1072  11  D:\Program Files (x86)\Vim\_vimrc
+-'  1027  14  D:\Program Files (x86)\Vim\_vimrc
+-'  1031  12  D:\Program Files (x86)\Vim\_vimrc
+-'  1033  21  D:\Program Files (x86)\Vim\_vimrc
+-'  628  10  D:\Program Files (x86)\Vim\_vimrc
 -'  1040  27  D:\Program Files (x86)\Vim\_vimrc
--'  1034  26  D:\Program Files (x86)\Vim\_vimrc
 -'  1035  4  D:\Program Files (x86)\Vim\_vimrc
 -'  664  39  D:\Program Files (x86)\Vim\_vimrc
 -'  663  16  D:\Program Files (x86)\Vim\_vimrc
@@ -100,43 +177,38 @@ $s:sessionfile
 -'  676  3  D:\Program Files (x86)\Vim\_vimrc
 -'  675  62  D:\Program Files (x86)\Vim\_vimrc
 -'  674  1  D:\Program Files (x86)\Vim\_vimrc
--'  668  65  D:\Program Files (x86)\Vim\_vimrc
--'  1  0  D:\Program Files (x86)\Vim\_vimrc
--'  666  3  D:\Program Files (x86)\Vim\_vimrc
 -'  665  62  D:\Program Files (x86)\Vim\_vimrc
--'  1043  23  D:\Program Files (x86)\Vim\_vimrc
--'  1042  27  D:\Program Files (x86)\Vim\_vimrc
--'  1036  4  D:\Program Files (x86)\Vim\_vimrc
--'  5626  0  C:\Windows\system32\NERD_tree_1
--'  8434  2  C:\Windows\system32\NERD_tree_1
--'  2815  0  C:\Windows\system32\NERD_tree_1
--'  5623  2  C:\Windows\system32\NERD_tree_1
--'  4  0  C:\Windows\system32\NERD_tree_1
--'  2812  2  C:\Windows\system32\NERD_tree_1
 
 # 缓冲区列表:
-%D:\Program Files (x86)\Vim\_vimrc	1042	11
+%D:\Program Files (x86)\Vim\_vimrc	73	8
 
 # 文件内的标记历史记录 (从新到旧):
 
 > D:\Program Files (x86)\Vim\_vimrc
-	"	1042	11
-	^	627	1
-	.	1040	0
-	+	1034	4
-	+	1035	4
-	+	1036	0
-	+	831	0
-	+	630	0
-	+	1031	0
-	+	1032	0
-	+	1031	18
-	+	1034	0
-	+	628	0
-	+	627	0
-	+	628	8
-	+	1034	0
-	+	1040	0
+	"	73	8
+	^	415	5
+	.	415	3
+	+	1075	4
+	+	1075	4
+	+	1075	0
+	+	1075	0
+	+	1075	0
+	+	1075	0
+	+	1075	0
+	+	1075	18
+	+	1075	0
+	+	1075	0
+	+	1075	0
+	+	1075	8
+	+	1075	0
+	+	1075	0
+	+	1075	5
+	+	193	0
+	+	75	0
+	+	74	0
+	+	413	4
+	+	414	0
+	+	415	3
 
 > C:\Windows\system32\NERD_tree_1
 	"	4	0
@@ -148,3 +220,29 @@ $s:sessionfile
 	+	1	0
 	+	1	0
 	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+
+> D:\Program Files (x86)\Vim\vim74\doc\editing.txt
+	"	921	14

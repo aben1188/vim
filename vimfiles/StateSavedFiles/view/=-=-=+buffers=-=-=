@@ -14,7 +14,8 @@ map <buffer> <silent> a :call bufferhint#LoadByHint("a")
 map <buffer> <silent> b :call bufferhint#LoadByHint("b")
 map <buffer> <silent> c :call bufferhint#LoadByHint("c")
 map <buffer> <silent> dd :call bufferhint#KillByCursor()
-map <buffer> <silent> dy :call bufferhint#KillByHint("y")
+map <buffer> <silent> dzb :call bufferhint#KillByHint("zb")
+map <buffer> <silent> dza :call bufferhint#KillByHint("za")
 map <buffer> <silent> dx :call bufferhint#KillByHint("x")
 map <buffer> <silent> dw :call bufferhint#KillByHint("w")
 map <buffer> <silent> dv :call bufferhint#KillByHint("v")
@@ -33,10 +34,32 @@ map <buffer> <silent> de :call bufferhint#KillByHint("e")
 map <buffer> <silent> dc :call bufferhint#KillByHint("c")
 map <buffer> <silent> db :call bufferhint#KillByHint("b")
 map <buffer> <silent> da :call bufferhint#KillByHint("a")
-map <buffer> <silent> dzd :call bufferhint#KillByHint("zd")
-map <buffer> <silent> dzc :call bufferhint#KillByHint("zc")
-map <buffer> <silent> dzb :call bufferhint#KillByHint("zb")
-map <buffer> <silent> dza :call bufferhint#KillByHint("za")
+map <buffer> <silent> dyz :call bufferhint#KillByHint("yz")
+map <buffer> <silent> dyy :call bufferhint#KillByHint("yy")
+map <buffer> <silent> dyx :call bufferhint#KillByHint("yx")
+map <buffer> <silent> dyw :call bufferhint#KillByHint("yw")
+map <buffer> <silent> dyv :call bufferhint#KillByHint("yv")
+map <buffer> <silent> dyu :call bufferhint#KillByHint("yu")
+map <buffer> <silent> dyt :call bufferhint#KillByHint("yt")
+map <buffer> <silent> dys :call bufferhint#KillByHint("ys")
+map <buffer> <silent> dyr :call bufferhint#KillByHint("yr")
+map <buffer> <silent> dyq :call bufferhint#KillByHint("yq")
+map <buffer> <silent> dyp :call bufferhint#KillByHint("yp")
+map <buffer> <silent> dyo :call bufferhint#KillByHint("yo")
+map <buffer> <silent> dyn :call bufferhint#KillByHint("yn")
+map <buffer> <silent> dym :call bufferhint#KillByHint("ym")
+map <buffer> <silent> dyl :call bufferhint#KillByHint("yl")
+map <buffer> <silent> dyk :call bufferhint#KillByHint("yk")
+map <buffer> <silent> dyj :call bufferhint#KillByHint("yj")
+map <buffer> <silent> dyi :call bufferhint#KillByHint("yi")
+map <buffer> <silent> dyh :call bufferhint#KillByHint("yh")
+map <buffer> <silent> dyg :call bufferhint#KillByHint("yg")
+map <buffer> <silent> dyf :call bufferhint#KillByHint("yf")
+map <buffer> <silent> dye :call bufferhint#KillByHint("ye")
+map <buffer> <silent> dyd :call bufferhint#KillByHint("yd")
+map <buffer> <silent> dyc :call bufferhint#KillByHint("yc")
+map <buffer> <silent> dyb :call bufferhint#KillByHint("yb")
+map <buffer> <silent> dya :call bufferhint#KillByHint("ya")
 map <buffer> <silent> e :call bufferhint#LoadByHint("e")
 map <buffer> <silent> f :call bufferhint#LoadByHint("f")
 map <buffer> <silent> gg :call bufferhint#Scroll("top")
@@ -56,9 +79,32 @@ map <buffer> <silent> u :call bufferhint#LoadByHint("u")
 map <buffer> <silent> v :call bufferhint#LoadByHint("v")
 map <buffer> <silent> w :call bufferhint#LoadByHint("w")
 map <buffer> <silent> x :call bufferhint#LoadByHint("x")
-map <buffer> <silent> y :call bufferhint#LoadByHint("y")
-map <buffer> <silent> zd :call bufferhint#LoadByHint("zd")
-map <buffer> <silent> zc :call bufferhint#LoadByHint("zc")
+map <buffer> <silent> yz :call bufferhint#LoadByHint("yz")
+map <buffer> <silent> yy :call bufferhint#LoadByHint("yy")
+map <buffer> <silent> yx :call bufferhint#LoadByHint("yx")
+map <buffer> <silent> yw :call bufferhint#LoadByHint("yw")
+map <buffer> <silent> yv :call bufferhint#LoadByHint("yv")
+map <buffer> <silent> yu :call bufferhint#LoadByHint("yu")
+map <buffer> <silent> yt :call bufferhint#LoadByHint("yt")
+map <buffer> <silent> ys :call bufferhint#LoadByHint("ys")
+map <buffer> <silent> yr :call bufferhint#LoadByHint("yr")
+map <buffer> <silent> yq :call bufferhint#LoadByHint("yq")
+map <buffer> <silent> yp :call bufferhint#LoadByHint("yp")
+map <buffer> <silent> yo :call bufferhint#LoadByHint("yo")
+map <buffer> <silent> yn :call bufferhint#LoadByHint("yn")
+map <buffer> <silent> ym :call bufferhint#LoadByHint("ym")
+map <buffer> <silent> yl :call bufferhint#LoadByHint("yl")
+map <buffer> <silent> yk :call bufferhint#LoadByHint("yk")
+map <buffer> <silent> yj :call bufferhint#LoadByHint("yj")
+map <buffer> <silent> yi :call bufferhint#LoadByHint("yi")
+map <buffer> <silent> yh :call bufferhint#LoadByHint("yh")
+map <buffer> <silent> yg :call bufferhint#LoadByHint("yg")
+map <buffer> <silent> yf :call bufferhint#LoadByHint("yf")
+map <buffer> <silent> ye :call bufferhint#LoadByHint("ye")
+map <buffer> <silent> yd :call bufferhint#LoadByHint("yd")
+map <buffer> <silent> yc :call bufferhint#LoadByHint("yc")
+map <buffer> <silent> yb :call bufferhint#LoadByHint("yb")
+map <buffer> <silent> ya :call bufferhint#LoadByHint("ya")
 map <buffer> <silent> zb :call bufferhint#LoadByHint("zb")
 map <buffer> <silent> za :call bufferhint#LoadByHint("za")
 map <buffer> <Right> <Nop>
@@ -171,7 +217,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 11) / 23)
+let s:l = 1 - ((0 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt

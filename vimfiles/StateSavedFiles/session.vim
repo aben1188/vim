@@ -3,13 +3,14 @@ if &cp | set nocp | endif
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
-cd C:\Windows\system32
+cd ~/
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +413 D:\Program\ Files\ (x86)\Vim\_vimrc
-silent! argdel *
+badd +315 .ideavimrc
+badd +857 D:\Program\ Files\ (x86)\Vim\_vimrc
+args .ideavimrc
 edit D:\Program\ Files\ (x86)\Vim\_vimrc
 set splitbelow splitright
 set nosplitbelow
@@ -26,12 +27,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 73 - ((2 * winheight(0) + 23) / 46)
+let s:l = 494 - ((2 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-73
-normal! 09|
+494
+normal! 0
 tabnext 1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

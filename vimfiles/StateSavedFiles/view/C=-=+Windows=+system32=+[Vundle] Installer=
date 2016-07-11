@@ -1,32 +1,34 @@
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
-vnoremap <buffer> <silent> [" :exe "normal! gv"|call search('\%(^\s*".*\n\)\%(^\s*"\)\@!', "bW")
-nnoremap <buffer> <silent> [" :call search('\%(^\s*".*\n\)\%(^\s*"\)\@!', "bW")
-vnoremap <buffer> <silent> [] m':exe "normal! gv"|call search('^\s*endf*\%[unction]\>', "bW")
-nnoremap <buffer> <silent> [] m':call search('^\s*endf*\%[unction]\>', "bW")
-vnoremap <buffer> <silent> [[ m':exe "normal! gv"|call search('^\s*fu\%[nction]\>', "bW")
-nnoremap <buffer> <silent> [[ m':call search('^\s*fu\%[nction]\>', "bW")
-vnoremap <buffer> <silent> ]" :exe "normal! gv"|call search('^\(\s*".*\n\)\@<!\(\s*"\)', "W")
-nnoremap <buffer> <silent> ]" :call search('^\(\s*".*\n\)\@<!\(\s*"\)', "W")
-vnoremap <buffer> <silent> ][ m':exe "normal! gv"|call search('^\s*endf*\%[unction]\>', "W")
-nnoremap <buffer> <silent> ][ m':call search('^\s*endf*\%[unction]\>', "W")
-vnoremap <buffer> <silent> ]] m':exe "normal! gv"|call search('^\s*fu\%[nction]\>', "W")
-nnoremap <buffer> <silent> ]] m':call search('^\s*fu\%[nction]\>', "W")
+nnoremap <buffer> <silent> ? :h vundle
+nnoremap <buffer> <silent> C :PluginClean!
+nnoremap <buffer> <silent> D :exec 'Delete'.getline('.')
+nnoremap <buffer> <silent> I :exec 'InstallAndRequire'.substitute(getline('.'), '^Plugin ', 'Plugin! ', '')
+nnoremap <buffer> <silent> R :call vundle#scripts#reload()
+nnoremap <buffer> <silent> add! :exec 'Install'.substitute(getline('.'), '^Plugin ', 'Plugin! ', '')
+nnoremap <buffer> <silent> add :exec 'Install'.getline('.')
+nnoremap <buffer> <silent> c :PluginClean
+nnoremap <buffer> <silent> h :h vundle
+nnoremap <buffer> <silent> i :exec 'InstallAndRequire'.getline('.')
+nnoremap <buffer> <silent> l :VundleLog
+nnoremap <buffer> <silent> q :silent bd!
+nnoremap <buffer> s :PluginSearch
+nnoremap <buffer> <silent> u :VundleChangelog
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
 setlocal balloonexpr=
 setlocal nobinary
-setlocal bufhidden=
+setlocal bufhidden=wipe
 setlocal buflisted
-setlocal buftype=
+setlocal buftype=nofile
 setlocal nocindent
 setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
 setlocal cinoptions=
 setlocal cinwords=if,else,while,do,for,switch
 setlocal colorcolumn=
-setlocal comments=sO:\"\ -,mO:\"\ \ ,eO:\"\",:\"
-setlocal commentstring=\"%s
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
@@ -42,8 +44,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != 'vim'
-setlocal filetype=vim
+if &filetype != 'vundle'
+setlocal filetype=vundle
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -56,17 +58,17 @@ setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldtext=foldtext()
 setlocal formatexpr=
-setlocal formatoptions=mMcroql
+setlocal formatoptions=tcqmM
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
 setlocal iminsert=2
 setlocal imsearch=2
 setlocal include=
 setlocal includeexpr=
-setlocal indentexpr=GetVimIndent()
-setlocal indentkeys=0{,0},:,0#,!^F,o,O,e,=end,=else,=cat,=fina,=END,0\\
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
 setlocal noinfercase
-setlocal iskeyword=@,48-57,_,128-167,224-235,#
+setlocal iskeyword=@,48-57,_,128-167,224-235
 setlocal keywordprg=
 setlocal linebreak
 setlocal nolisp
@@ -74,17 +76,17 @@ setlocal nolist
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:],<:>
 setlocal modeline
-setlocal modifiable
+setlocal nomodifiable
 setlocal nrformats=octal,hex,alpha
-setlocal number
+setlocal nonumber
 setlocal numberwidth=4
 setlocal omnifunc=
 setlocal path=
 setlocal nopreserveindent
-setlocal nopreviewwindow
+setlocal previewwindow
 setlocal quoteescape=\\
-setlocal noreadonly
-setlocal relativenumber
+setlocal readonly
+setlocal norelativenumber
 setlocal norightleft
 setlocal rightleftcmd=search
 setlocal noscrollbind
@@ -98,26 +100,25 @@ setlocal spellfile=
 setlocal spelllang=en
 setlocal statusline=%!airline#statusline(1)
 setlocal suffixesadd=
-setlocal swapfile
+setlocal noswapfile
 setlocal synmaxcol=3000
 if &syntax != 'vim'
 setlocal syntax=vim
 endif
 setlocal tabstop=4
 setlocal tags=
-setlocal textwidth=78
+setlocal textwidth=0
 setlocal thesaurus=
 setlocal undofile
-setlocal nowinfixheight
+setlocal winfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-silent! normal! zE
-let s:l = 494 - ((2 * winheight(0) + 23) / 46)
+let s:l = 11 - ((10 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-494
+11
 normal! 0
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost

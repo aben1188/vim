@@ -36,11 +36,11 @@ Plugin 'bsdelf/bufferhint'
 " by placing a sign in the leftmost column of the buffer. 
 " The sign indicates the label of the mark and its location. 
 " ShowMarks的快捷键
-" <Leader>mt - Toggle whether marks are displayed or not.
-" <Leader>mo - Turn ShowMarks on, and displays marks.
-" <Leader>mh - Clear mark on current line.
-" <Leader>ma - Clear all marks.
-" <Leader>mm - Places next available mark.
+" <LEADER>mt - Toggle whether marks are displayed or not.
+" <LEADER>mo - Turn ShowMarks on, and displays marks.
+" <LEADER>mh - Clear mark on current line.
+" <LEADER>ma - Clear all marks.
+" <LEADER>mm - Places next available mark.
 " ShowMarks的配置(Configuration)
 " Don't open ShowMarks with CursorHold autocommand.
 "let g:showmarks_auto_toggle=0
@@ -56,6 +56,7 @@ Plugin 'bsdelf/bufferhint'
 " Highlight entire line where a lowercase mark is on.
 "let g:showmarks_hlline_lower=1
 Plugin 'bootleq/ShowMarks'
+Plugin 'tpope/vim-surround'
 "Plugin 'tpope/vim-fugitive'
 "" plugin from http://vim-scripts.org/vim/scripts.html
 "Plugin 'L9'
@@ -169,7 +170,7 @@ set wildmenu
 set cmdwinheight=20
 
 " A buffer becomes hidden when it is abandoned
-set hid
+set hidden
 
 " Configure backspace so it acts as it should act
 set whichwrap+=<,>,h,l
@@ -334,6 +335,12 @@ set clipboard=unnamed
     "nnoremap <DOWN>  <C-E>
     "nnoremap <UP>    <C-Y>
 
+    " 移动光标，不滚屏（<CR>普通模式下为向下移动光标，但<BS>为逐字符移动光标）
+    nnoremap <BS> k
+    
+    " redo重做命令
+    nnoremap U <C-R>
+
     " Treat long lines as break lines（按显示行逐行移动，而非按文本行）， 
     " 并且设定为文本逐行滚动，而非光标逐行移动（光标相对屏幕的位置
     " 固定不动，按F3可切换这两种方式）
@@ -355,11 +362,13 @@ set clipboard=unnamed
 
     " 插入模式、命令行模式下移动、删除
     inoremap <C-H> <LEFT>
-    inoremap <C-J> <Down>
+    inoremap <C-J> <DOWN>
     inoremap <C-K> <UP>
     inoremap <C-L> <RIGHT>
     inoremap <C-D> <DELETE>
     cnoremap <C-H> <LEFT>
+    cnoremap <C-J> <DOWN>
+    cnoremap <C-K> <UP>
     cnoremap <C-L> <RIGHT>
     cnoremap <C-D> <DELETE>
 
@@ -371,11 +380,9 @@ set clipboard=unnamed
     " 插入模式下，回车为ESC；Shift+回车为回车
     "inoremap <S-CR> <CR>
     "inoremap <CR> <ESC>
-    " i、v、c模式下，jj或C-N返回正常模式
+    
+    " i、v、c模式下，jj返回正常模式
     inoremap jj    <ESC>
-    inoremap <C-N> <ESC>
-    vnoremap <C-N> <ESC>
-    cnoremap <C-N> <ESC>
     
     " 插入模式下，复制上、下行对应列字符
     inoremap <C-BS> <C-Y>
@@ -410,6 +417,7 @@ set clipboard=unnamed
     noremap ,< <C-W><  |" 减少当前窗口的宽度
     noremap ,T <C-W>T  |" 将所有分窗口转换标签
 
+    " 可视模式下缩进/反缩进可视区域(选择区域)
     vnoremap < <gv
     vnoremap > >gv
     
@@ -447,11 +455,22 @@ set clipboard=unnamed
     " 重载配置文件
     map <F9> :source $MYVIMRC<CR>
 
-    " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac（上下移动行）
-    nmap <M-j> mz:m+<cr>`z
-    nmap <M-k> mz:m-2<cr>`z
-    vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
-    vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+    " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
+    " 上下移动行(整行移动)
+    " mz，设置标记z；`z，精确移动到标记z所在的行与列；
+    " :m，移动整行(:[range]m[ove] {address}，把[range]指定的行移动到{address}
+    " 给出的行之下)；+/-，行号加1/减1；:m+，移动当前行到下一行的下面
+    " (相当于与下一行交换位置)，:m-，移动当前行到上一行的下面(相当于
+    " 没有移动)，m-2，移动当前行到上两行的下面(相当于与上一行交换位置) 
+    nmap <M-j> mz:m+<CR>`z
+    nmap <M-k> mz:m-2<CR>`z
+    " '<，光标移动到上次可视区域首行行首，'>，光标移动到上次可视区域末行行首；
+    " 若上次可视区域非跨多行(2行或以上)，而是单行或行内部分字符，'<和'>效果等同；
+    " `<，光标移动到上次可视区域的首字符，`>，光标移动到上次可视区域的末字符；
+    " 相较于'<和'>，`<和`>移动更为精确；o，可视模式下表示移动光标到可视区域的
+    " 另一侧(光标在可视区域内的光标最初所在的位置与最后所在的位置之间移动)
+    vmap <M-j> :m'>+<CR>`<my`>mzgv`yo`z
+    vmap <M-k> :m'<-2<CR>`>my`<mzgv`yo`z
     "if has("mac") || has("macunix")
     "    nmap <D-j> <M-j>
     "    nmap <D-k> <M-k>
@@ -464,7 +483,7 @@ set clipboard=unnamed
     "noremap <S-Tab> <<
 " }
 
-" Disable highlight when <LEADER><cr> is pressed
+" Disable highlight
 map <LEADER>h :noh<CR>
 
 " 普通模式下插入换行符
@@ -506,7 +525,7 @@ map <LEADER>bp :bprevious<CR>
 map <LEADER>bn :bnext<CR>
 
 " Useful mappings for managing tabs
-map <LEADER>tn :tabnew<CR>
+map <LEADER>tc :tabnew<CR>  |" tab create
 map <LEADER>ts :tab split<CR>
 map <LEADER>to :tabonly<CR>
 map <LEADER>tc :tabclose<CR>
@@ -514,7 +533,7 @@ map <LEADER>tf :tabfirst<CR>
 map <LEADER>tl :tablast<CR>
 map <LEADER>tm :tabmove
 map <LEADER>tp :tabprevious<CR>
-map <LEADER>tx :tabnext<CR>
+map <LEADER>tn :tabnext<CR>
 " Let 'tt' toggle between this and the last accessed tab
 let g:lasttab=1
 nmap <LEADER>tt :execute "tabnext ".g:lasttab<CR>
@@ -532,7 +551,7 @@ map <LEADER>cd :cd %:p:h<cr>:pwd<cr>
 map <LEADER>z :call ZoomWindowTemporarily()<CR>
 
 " toggle case ignore（切换忽略大小写选项）
-nmap <Leader>C :set ignorecase! ignorecase?<CR>
+nmap <LEADER>C :set ignorecase! ignorecase?<CR>
 
 " 映射Vundle命令（Vundle源于Bundle，为避免与其他映射冲突，使用b开头）
 map <LEADER>bl :PluginList<CR>
@@ -544,15 +563,15 @@ map <LEADER>bc :PluginClean<CR>
 map <LEADER>n :NERDTree<CR>
 
 " easymotion变量及快捷键映射
-map <Leader><leader>h <Plug>(easymotion-linebackward)
-map <Leader><leader>l <Plug>(easymotion-lineforward)
-map <Leader><leader>. <Plug>(easymotion-repeat)
+map <LEADER><LEADER>h <Plug>(easymotion-linebackward)
+map <LEADER><LEADER>l <Plug>(easymotion-lineforward)
+map <LEADER><LEADER>. <Plug>(easymotion-repeat)
 " 下列快捷键为easymotion的默认映射，无需重复设置
 " <LEADER><LEADER>w：跳转到当前光标后的某个单词
 " <LEADER><LEADER>b：跳转到当前光标前的某个单词
 " <LEADER><LEADER>s：双向跳转到所输入的单个字母
 " <LEADER><LEADER>j：跳转到光标下面的某行
-" <LEADER><LEADER>k：跳转到光标上面的某
+" <LEADER><LEADER>k：跳转到光标上面的某行
 let g:EasyMotion_smartcase=1
 " keep cursor colum when JK motion
 let g:EasyMotion_startofline=0
@@ -731,15 +750,22 @@ set imactivatekey=C-space
 """"""""""""""""""""""""""""""
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
+" 可视模式下搜索选中的内容(选中内容搜索)
 "noremap * :call VisualSelectionArthurChiao('SearchForward', '')<CR>
 "noremap # :call VisualSelectionArthurChiao('SearchBackward', '')<CR>
-" 
+" <C-R>，命令行模式下插入寄存器中的内容；<C-R>/，插入搜索模式寄存器的内容
 "vnoremap * :<C-U>call VisualSelectionAmix('', '')<CR>/<C-R>=@/<CR><CR>
 "vnoremap # :<C-U>call VisualSelectionAmix('', '')<CR>?<C-R>=@/<CR><CR>
 "vnoremap * :<C-U>call VisualSelectionAmix('', '')<CR>/<C-R>/<CR>
 "vnoremap # :<C-U>call VisualSelectionAmix('', '')<CR>?<C-R>/<CR>
 vnoremap <LEADER>f :call VisualSelectionAmix('', '')<CR>/<C-R>/<CR>
-vnoremap <LEADER>b :call VisualSelectionAmix('', '')<CR>?<C-R>/<CR>
+"vnoremap <LEADER>b :call VisualSelectionAmix('', '')<CR>?<C-R>/<CR>
+" y，复制可视区域(选择区域、选择文本)；/，进入搜索命令行模式；
+" <C-R>0，粘贴"0复制专用寄存器中刚刚复制的内容；<CR>，回车执行搜索
+" 注意：必须使用vnoremap，而不能使用vmap，否则无法达到目的
+" 另外，本方法在遇到斜杠/这样的特殊字符时，无法达到目的，
+" 即使使用<C-R><C-R>也不行
+vnoremap f y/<C-R>0<CR>
 
 """"""""""""""""""""""""""""""
 " Status line
@@ -817,17 +843,18 @@ let g:airline_section_b='%<%m%r%h%w TYPE=%Y %.9b/0x%.9B CWD=%{getcwd()}'
 "let g:airline_section_y='%l,%c%V %p%% %P %LLs'
 
 let g:airline#extensions#tabline#buffer_idx_mode=1
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>[ <Plug>AirlineSelectPrevTab
-nmap <leader>] <Plug>AirlineSelectNextTab
+" 按<LEADER>+数字键，选择Tab标签
+nmap <M-1> <Plug>AirlineSelectTab1
+nmap <M-2> <Plug>AirlineSelectTab2
+nmap <M-3> <Plug>AirlineSelectTab3
+nmap <M-4> <Plug>AirlineSelectTab4
+nmap <M-5> <Plug>AirlineSelectTab5
+nmap <M-6> <Plug>AirlineSelectTab6
+nmap <M-7> <Plug>AirlineSelectTab7
+nmap <M-8> <Plug>AirlineSelectTab8
+nmap <M-9> <Plug>AirlineSelectTab9
+nmap <M-[> <Plug>AirlineSelectPrevTab
+nmap <M-]> <Plug>AirlineSelectNextTab
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 配置airline结束
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
